@@ -3,7 +3,7 @@ polygenea
 
 An effort to document a data model for collaborative genealogy.
 
-See [the wiki](https://github.com/tychonievich/polygenea/wiki) for more.
+See [the wiki](https://github.com/rootsdev/polygenea/wiki) for more.
 
 Right now the model as documented here is still very vague in many details;
 I (Luther) am adding them as I get time.
