@@ -9,13 +9,13 @@ import org.rootsdev.polygenea.NodeLookup;
 /**
  * Note nodes are generic human-targeted information that can be attached to any
  * other node. They are intended for small pieces of text. If more scope is
- * needed, create a Citation with the USER kind, a Source with the content, and
- * a set of ConnectingNote nodes to represent its relationship to other nodes.
+ * needed, create a Citation to the creator of the note, a Source with the
+ * note's content, and connect it to claims like you would any other Source.
  * 
- * @see ConnectingNote
  * @see Property
- * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would consider
+ *         it a courtesy if you cite my contributions to any code derived from
+ *         this code or project that uses this code.
  */
 public abstract class Note extends Node {
 	/** The node to which the note applies. */
@@ -25,11 +25,17 @@ public abstract class Note extends Node {
 	/** Who is doing the saying, or {@literal null} if anonymous. */
 	public final String creator;
 
-	/** Constructor used by JSON loading methods in Node and Database 
-	 * @param map A JSON object of this node
-	 * @param lookup How to resolve node references into Node objects 
-	 * @throws JSONParser.MalformedJSONException if the data is not proper JSON
-	 * @throws IllegalArgumentException if JSON is not a Node or list of Nodes.
+	/**
+	 * Constructor used by JSON loading methods in Node and Database
+	 * 
+	 * @param map
+	 *            A JSON object of this node
+	 * @param lookup
+	 *            How to resolve node references into Node objects
+	 * @throws JSONParser.MalformedJSONException
+	 *             if the data is not proper JSON
+	 * @throws IllegalArgumentException
+	 *             if JSON is not a Node or list of Nodes.
 	 */
 	public Note(SortedMap<String, Object> map, NodeLookup lookup) {
 		super(map);
@@ -39,10 +45,15 @@ public abstract class Note extends Node {
 		this.selfCheck();
 	}
 
-	/** Constructor used by code that wishes to create new objects
-	 * @param about A Node to which to attached this note
-	 * @param content Whatever text we wish to provide
-	 * @param creator Who made the note (may be null for anonymous notes)
+	/**
+	 * Constructor used by code that wishes to create new objects
+	 * 
+	 * @param about
+	 *            A Node to which to attached this note
+	 * @param content
+	 *            Whatever text we wish to provide
+	 * @param creator
+	 *            Who made the note (may be null for anonymous notes)
 	 */
 	public Note(Node about, String content, String creator) {
 		super();
