@@ -3,27 +3,41 @@ package org.rootsdev.polygenea.nodes;
 import java.util.SortedMap;
 
 import org.rootsdev.polygenea.JSONParser;
-import org.rootsdev.polygenea.Node;
 import org.rootsdev.polygenea.NodeLookup;
 
 /**
- * Note nodes are generic human-targeted information that can be attached to any
- * other node. They are intended for small pieces of text. If more scope is
- * needed, create a Citation to the creator of the note, a Source with the
- * note's content, and connect it to claims like you would any other Source.
+ * A Note node represents a Source that comes neither from some ExternalSource
+ * nor from Inference but instead from a user of the system. Users may also
+ * create ExternalSource nodes directly to represent, e.g., their personal
+ * knowledge of various events related to their own lives. A Note node instead
+ * represents informative but unessential information that might be of interest
+ * to other users of the system.
+ * <p>
+ * The term “note” is used to apply to Note nodes and transitively to any other
+ * node that references a note. All of the following would be represented as
+ * notes:
+ * <ul>
+ * <li>The Property node “I had trouble reading this; you might want to verify
+ * it.”
+ * <li>The Connection node “This node supersedes that one”, with a Property node
+ * “because that one has a spelling error” attached to the Connection node.
+ * <li>The Grouping node “Are these all the same person or not?”
+ * </ul>
+ * I am unaware of any reason that a Thing node would be a note, but it is not
+ * prevented by the data model.
+ * <p>
+ * Because the data is stored in other nodes, all the Note node contains is the
+ * creator of the data (that is, its source).
  * 
- * @see Property
- * @author Luther Tychonievich. Released into the public domain. I would consider
- *         it a courtesy if you cite my contributions to any code derived from
- *         this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
-public abstract class Note extends Node {
-	/** The node to which the note applies. */
-	public final Node about;
-	/** What is being said about that node. */
-	public final String content;
-	/** Who is doing the saying, or {@literal null} if anonymous. */
-	public final String creator;
+public class Note extends Source {
+
+	/** Who created this Note. */
+	public final String user;
+	/** When this Note was created. */
+	public final String date;
 
 	/**
 	 * Constructor used by JSON loading methods in Node and Database
@@ -39,42 +53,38 @@ public abstract class Note extends Node {
 	 */
 	public Note(SortedMap<String, Object> map, NodeLookup lookup) {
 		super(map);
-		this.about = lookup.lookup(map.get("about"));
-		this.content = (String) map.get("content");
-		this.creator = (String) map.get("creator");
+		this.user = (String) map.get("user");
+		this.date = (String) map.get("date");
 		this.selfCheck();
 	}
 
 	/**
 	 * Constructor used by code that wishes to create new objects
 	 * 
-	 * @param about
-	 *            A Node to which to attached this note
-	 * @param content
-	 *            Whatever text we wish to provide
-	 * @param creator
-	 *            Who made the note (may be null for anonymous notes)
+	 * @param user
+	 *            A description of who created this comment
+	 * @param date
+	 *            A date string of when the comment was created
 	 */
-	public Note(Node about, String content, String creator) {
+	public Note(String user, String date) {
 		super();
-		this.about = about;
-		this.content = content;
-		this.creator = creator;
+		this.user = user;
+		this.date = date;
 		this.selfCheck();
 	}
 
 	@Override
 	public boolean validate(StringBuilder log) {
 		boolean ok = super.validate(log);
-		if (this.about == null) {
-			log.append("notes have to be about some Node");
+		if (user == null || user.length() == 0) {
+			log.append("user should not be null\n");
 			ok = false;
 		}
-		if (this.content == null || this.content.length() < 1) {
-			log.append("notes must have some content");
+		if (date == null || date.length() == 0) {
+			log.append("date should not be null\n");
 			ok = false;
 		}
-		// creator may be null...
+		// To do: check for date formatting?
 		return ok;
 	}
 }

@@ -27,7 +27,8 @@ import org.rootsdev.polygenea.NodeLookup;
  * At some point a set of standardised relation fields will be produced. Even
  * once they are, though, custom relations will be permitted.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class Grouping extends Claim {
 

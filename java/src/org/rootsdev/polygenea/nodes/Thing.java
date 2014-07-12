@@ -19,7 +19,8 @@ import org.rootsdev.polygenea.NodeLookup;
  * internally since it is quite possible in some sources to mistake a pet for a
  * person or the like.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 @HasIdentity()
 public class Thing extends Claim {

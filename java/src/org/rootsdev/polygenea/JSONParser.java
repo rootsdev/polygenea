@@ -25,7 +25,8 @@ import java.util.TreeSet;
  * A class of static methods for parsing JSON into classes from java.util and java.lang.
  * Contains the ability to request lists be parsed as sets.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class JSONParser {
 	

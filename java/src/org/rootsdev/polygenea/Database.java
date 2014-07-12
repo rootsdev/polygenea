@@ -30,7 +30,8 @@ import org.rootsdev.polygenea.nodes.Thing;
  * Eventually, this class is intended to become a full disk-backed database;
  * right now it primarily serves as a NodeLookup implementation.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class Database implements NodeLookup, Iterable<Node> {
 	private Map<UUID, Node> all = new TreeMap<UUID, Node>();
@@ -129,7 +130,7 @@ public class Database implements NodeLookup, Iterable<Node> {
 				Node n = Node.fromJSON(s, this);
 				return this.lookup(n);
 			} catch (Throwable ex) {
-				throw new IllegalArgumentException("The provided string "+s+" is not a JSON node or a UUID\n\t" + s);
+				throw new IllegalArgumentException("The provided string " + s + " is not a JSON node or a UUID\n\t" + s);
 			}
 		} else {
 			throw new IllegalArgumentException("This database can only process JSON and UUID nodes, not " + o.getClass());
@@ -253,8 +254,9 @@ public class Database implements NodeLookup, Iterable<Node> {
 	 * Parses the given JSON and adds all of its nodes to this database.
 	 * 
 	 * @param json
-	 *            Either a SortedMap&lt;String, Object&gt; parseable by Note.fromJSON
-	 *            or a List&lt;SortedMap&lt;String, Object&gt;&gt; of such objects.
+	 *            Either a SortedMap&lt;String, Object&gt; parseable by
+	 *            Node.fromJSON or a List&lt;SortedMap&lt;String, Object&gt;&gt;
+	 *            of such objects.
 	 * @throws JSONParser.MalformedJSONException
 	 *             if the data is not valid JSON
 	 * @throws IllegalArgumentException

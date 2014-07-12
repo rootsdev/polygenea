@@ -22,27 +22,36 @@ import org.rootsdev.polygenea.NodeLookup;
  * keys and acceptable formatting of their values, but that will be a sufficient
  * set rather than the only fields permitted.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class Citation extends Node {
 
-	/** 
-	 * Our best description of the real-world existence of the thing being cited.
+	/**
+	 * Our best description of the real-world existence of the thing being
+	 * cited.
 	 * <p>
-	 * Unlike other Node fields, this one will be merged with the overall JSON, not included as a "details" entry. 
+	 * Unlike other Node fields, this one will be merged with the overall JSON,
+	 * not included as a "details" entry.
 	 */
 	public final SortedMap<String, Object> details;
 
-	/** Constructor used by JSON loading methods in Node and Database 
-	 * @param map A JSON object of this node
-	 * @param lookup How to resolve node references into Node objects (ignored)
-	 * @throws JSONParser.MalformedJSONException if the data is not proper JSON
-	 * @throws IllegalArgumentException if JSON is not a Node or list of Nodes.
+	/**
+	 * Constructor used by JSON loading methods in Node and Database
+	 * 
+	 * @param map
+	 *            A JSON object of this node
+	 * @param lookup
+	 *            How to resolve node references into Node objects (ignored)
+	 * @throws JSONParser.MalformedJSONException
+	 *             if the data is not proper JSON
+	 * @throws IllegalArgumentException
+	 *             if JSON is not a Node or list of Nodes.
 	 */
 	public Citation(SortedMap<String, Object> map, NodeLookup lookup) {
 		super(map);
-		SortedMap<String,Object> details = new TreeMap<String,Object>();
-		for(String key : map.keySet()) {
+		SortedMap<String, Object> details = new TreeMap<String, Object>();
+		for (String key : map.keySet()) {
 			if (key.startsWith("!")) continue;
 			details.put(key, map.get(key));
 		}
@@ -53,11 +62,16 @@ public class Citation extends Node {
 	 * A convenience constructor allowing the key:value mapping to be specified
 	 * inline.
 	 * 
-	 * @param kind
-	 *            The Citation.Kind of this Citation.
+	 * @param key1
+	 *            The first key string (separate to make this method
+	 *            unambiguously different from the JSON constructor)
+	 * @param val1
+	 *            The value that goes with that key
 	 * @param fields
 	 *            An even number of Strings; the 1st, 3rd, etc are keys and the
 	 *            2nd, 4th, etc are the corresponding values.
+	 * @throws IllegalArgumentException
+	 *             if any key starts with a '!' or is a duplicate of another key
 	 */
 	public Citation(String key1, Object val1, Object... fields) {
 		super();
@@ -69,7 +83,7 @@ public class Citation extends Node {
 		for (int i = 0; i < fields.length; i += 2) {
 			if (fields[i] == null) throw new IllegalArgumentException("all keys must be non-null");
 			if (!(fields[i] instanceof String)) throw new IllegalArgumentException("all keys must be Strings");
-			String key = (String)fields[i];
+			String key = (String) fields[i];
 			if (key.startsWith("!")) throw new IllegalArgumentException("no key may start with a '!' character");
 			if (details.containsKey(key)) throw new IllegalArgumentException("all keys must be distinct (\"" + key + "\" appears more than once)");
 			if (fields[i + 1] == null) continue;
@@ -81,10 +95,8 @@ public class Citation extends Node {
 	}
 
 	/**
-	 * Constructor used by code that wishes to create new objects 
+	 * Constructor used by code that wishes to create new objects
 	 * 
-	 * @param kind
-	 *            The Citation.Kind of this Citation.
 	 * @param fields
 	 *            The key:value pairs of this object.
 	 */
@@ -93,8 +105,7 @@ public class Citation extends Node {
 		this.details = java.util.Collections.unmodifiableSortedMap(fields);
 		this.selfCheck();
 	}
-	
-	
+
 	/**
 	 * Creates a SortedMap version of this node, suitable for JSON serialisation
 	 * in canonical form (hence Sorted). Overridden to put the keys in details
@@ -108,7 +119,8 @@ public class Citation extends Node {
 	@Override
 	protected SortedMap<String, Object> toSerialize(boolean withUUID) {
 		SortedMap<String, Object> ans = new TreeMap<String, Object>();
-		for(String key : this.details.keySet()) ans.put(key, this.details.get(key));
+		for (String key : this.details.keySet())
+			ans.put(key, this.details.get(key));
 		ans.put("!class", this.getClass().getSimpleName());
 		if (withUUID) ans.put("!uuid", this.getUUID());
 		return ans;
@@ -120,8 +132,8 @@ public class Citation extends Node {
 		if (details.size() < 1) {
 			log.append("Should have at least one real field\n");
 			ok = false;
-		} 
-		for(String key : details.keySet()) {
+		}
+		for (String key : details.keySet()) {
 			if (key == null) {
 				log.append("Should not have null keys\n");
 				ok = false;

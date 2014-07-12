@@ -6,16 +6,19 @@ import org.rootsdev.polygenea.JSONParser;
 import org.rootsdev.polygenea.NodeLookup;
 
 /**
- * A Connection embodies directed relationships between two other claims. Any
- * possessive like “<em>object</em>'s <em>relation</em> is <em>subject</em>”
- * and most prepositional phrases like “<em>subject</em> is the
- * <em>relation</em> of <em>object</em>” suggest Connections. When drawn as
- * an arrow, it is most natural to say “<em>object</em> —<em>relation</em>→
- * <em>subject</em>”, as in “Eve —child→ Able” or “York —inside→
- * England”.
- * <p>
- * Some sources provide undirected and many-party connections, such as
- * "A, B, and C were brothers". That kind of claim is handled by Grouping nodes.
+ * A Connection node embodies directed relationships between two other claims.
+ * The Connection node “<em>X</em> —<em>Y</em>→ <em>Z</em>” most often expresses
+ * one of the following ideas:
+ * <ul>
+ * <li><em>Y</em> is a transitive verb, <em>X</em> is the subject and <em>Z</em>
+ * is the direct object. For example, “Cain killed Able” yields “Cain —killed→
+ * Able”.
+ * <li><em>Y</em> is a noun, <em>Z</em> is (a/an/the) <em>Y</em> of <em>X</em>.
+ * For example, “Seth's mother is Eve” yields “Seth —mother→ Eve”
+ * and “York is inside of England” “England —inside→ York”.
+ * </ul>
+ * Some sources provide undirected and many-party relations, such as “A, B, and
+ * C were brothers”. That kind of claim is handled by Grouping nodes.
  * <p>
  * Some Connection nodes can be reduced to Property nodes. See the discussion
  * under {@link Property} for more.
@@ -23,42 +26,54 @@ import org.rootsdev.polygenea.NodeLookup;
  * At some point a set of standardised relation fields will be produced. Even
  * once they are, though, custom relations will be permitted.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class Connection extends Claim {
 
-	/** The claim being described. */
-	public final Claim subject;
-	/** The claim used to describe it. */
-	public final Claim object;
-	/** The relationship between the described and the describer. */
+	/** See main class description. */
+	public final Claim to;
+	/** See main class description. */
+	public final Claim from;
+	/** See main class description. */
 	public final String relation;
 
-	/** Constructor used by JSON loading methods in Node and Database 
-	 * @param map A JSON object of this node
-	 * @param lookup How to resolve node references into Node objects 
-	 * @throws JSONParser.MalformedJSONException if the data is not proper JSON
-	 * @throws IllegalArgumentException if JSON is not a Node or list of Nodes.
+	/**
+	 * Constructor used by JSON loading methods in Node and Database
+	 * 
+	 * @param map
+	 *            A JSON object of this node
+	 * @param lookup
+	 *            How to resolve node references into Node objects
+	 * @throws JSONParser.MalformedJSONException
+	 *             if the data is not proper JSON
+	 * @throws IllegalArgumentException
+	 *             if JSON is not a Node or list of Nodes.
 	 */
 	public Connection(SortedMap<String, Object> map, NodeLookup lookup) {
 		super(map, lookup);
-		this.subject = (Claim) lookup.lookup(map.get("subject"));
-		this.object = (Claim) lookup.lookup(map.get("object"));
+		this.to = (Claim) lookup.lookup(map.get("to"));
+		this.from = (Claim) lookup.lookup(map.get("from"));
 		this.relation = (String) map.get("relation");
 		this.selfCheck();
 	}
 
 	/**
 	 * Constructor used by code that wishes to create new objects
-	 * @param source Where we got this Connection
-	 * @param subject What we are connecting to
-	 * @param object What we are connecting from
-	 * @param relation What kind of connection
+	 * 
+	 * @param source
+	 *            Where we got this Connection
+	 * @param from
+	 *            See main class description
+	 * @param relation
+	 *            See main class description
+	 * @param to
+	 *            See main class description
 	 */
-	public Connection(Source source, Claim subject, Claim object, String relation) {
+	public Connection(Source source, Claim from, String relation, Claim to) {
 		super(source);
-		this.subject = subject;
-		this.object = object;
+		this.to = to;
+		this.from = from;
 		this.relation = relation;
 		this.selfCheck();
 	}
@@ -66,12 +81,12 @@ public class Connection extends Claim {
 	@Override
 	public boolean validate(StringBuilder log) {
 		boolean ok = super.validate(log);
-		if (subject == null) {
-			log.append("subject should not be null");
+		if (to == null) {
+			log.append("to should not be null");
 			ok = false;
 		}
-		if (object == null) {
-			log.append("object should not be null");
+		if (from == null) {
+			log.append("from should not be null");
 			ok = false;
 		}
 		if (relation == null || relation.length() == 0) {

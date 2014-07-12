@@ -30,7 +30,8 @@ import java.util.UUID;
  * @see java.util.UUID
  * @see java.security.MessageDigest
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class UUID5 {
 	/**

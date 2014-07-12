@@ -12,7 +12,8 @@ import java.lang.annotation.Target;
  * distinction is realized by giving the node a type-1 or type-4 UUID instead of
  * a content-based type-5 UUID.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

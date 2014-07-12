@@ -202,7 +202,7 @@ class Match : Thing {
 	override public bool hasIdentity() { return false; } mixin NodeBody!(1, Source, "source", Thing[], "same"); 
 }
 class Property : Claim { mixin NodeBody!(1, Source, "source", Claim, "subject", string, "key", string, "value"); }
-class Connection : Claim { mixin NodeBody!(1, Source, "source", Claim, "object", string, "relation", Claim, "subject"); }
+class Connection : Claim { mixin NodeBody!(1, Source, "source", Claim, "from", string, "relation", Claim, "to"); }
 class Grouping : Claim { mixin NodeBody!(1, Source, "source", Claim[], "subjects", string, "relation"); }
 
 

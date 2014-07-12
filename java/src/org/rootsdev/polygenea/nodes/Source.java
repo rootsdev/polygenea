@@ -9,7 +9,8 @@ import org.rootsdev.polygenea.Node;
  * The Source class is merely a placeholder to represent those kinds of nodes
  * that can be the source of a Claim.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public abstract class Source extends Node {
 	/** Constructor used by JSON loading methods in Node and Database 

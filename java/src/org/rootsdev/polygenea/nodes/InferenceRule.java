@@ -20,60 +20,56 @@ import org.rootsdev.polygenea.NodeLookup;
  * trend (e.g., mothers are born at least 15 years before their eldest child),
  * or by any combination of these.
  * <p>
- * Each rules that the InferenceRule node can represent has a fixed number of
- * antecedents. If a rule has one of a finite set of possible antecedents,
- * represent it as several InferenceRule nodes. It is my belief that all rules
- * that would have an arbitrary number of antecedents can be represented by
- * adding some kind of transitivity rule. For example, the rule “A is a
- * descendant of B if A is B's child, or B's grandchild, or B's
- * great-grandchild, etc.” can be encoded as two rules: “—child→ implies
- * —descendant→” and “—descendant→(person)—descendant→ implies —descendant→”. I
- * have the beginnings of a proof that such transitive rules have all the
- * expressive power of the Kleene star, though I have worked out all the details
- * yet.
+ * InferenceRule nodes can only represent rules that have a fixed number of
+ * antecedent nodes. If a rule has one of a finite set of possible antecedents,
+ * represent it using several InferenceRule nodes. Rules with an arbitrary
+ * number of antecedents can be represented by adding some kind of transitivity
+ * rule. For example, the rule “A is a descendant of B if A is B's child, or B's
+ * grandchild, or B's great-grandchild, etc.” can be encoded as two rules:
+ * “—child→ implies —descendant→” and “—descendant→(person)—descendant→ implies
+ * —descendant→”. Transitive rules of this nature have the same power as the
+ * Kleene star.
  * <p>
  * Both antecedents and consequents of rules are stored in the same JSON format
- * as node serialisation itself, with the following constriants:
+ * as node serialisation itself, with the following constraints:
  * <ul>
  * <li>Neither antecedents nor consequents contain "!uuid" fields since they are
  * intended to represent patterns applicable to many nodes.
  * <li>Consequents do not contain "source" fields since their source will be the
  * new Inference this rule suggests.
- * <li>Antecedents may omit any other field that they do not care about.
- * <li>Node references must be by index, not by UUID. The index is into virtual
- * list antecedents.append(consequents).
- * <li>Antecedent value strings beginning with an '!'} and containing a ':'} are
- * treated specially depending on what lies between the ! and the :
- * <dl>
- * <dt>!re:</dt>
- * <dd>Regular expression: the value after the colon is matched using
- * String's match method.</dd>
- * <dt>!contains:</dt>
- * <dd>Matches collections if any element of the collection would match what
- * follows the colon.</dd>
- * </dl>
- * Other !___: openings will be added later to allow more involved match
- * logic.
+ * <li>Antecedents may omit any field that they do not care about.
+ * <li>Node references must be by index, not by UUID. The index is into the
+ * virtual list concatenate(antecedents, consequents).
+ * <li>Antecedent value strings beginning with an {@literal '!'} and containing
+ * a {@literal ':'} are treated specially; see the documentation for
+ * valueMatches for details.
  * </ul>
  * <p>
- * It is my hope that the nature of the inference rule will make it easy
- * for user interface designers to allow any user to specify a rule.
- * The idea is that the user can identify an example of the rule's applicability
- * (which gives a candidate set of antecedents and consequents)
- * and then be asked a set of questions that lets the tool discard fields from the antecedents
- * or write them in more general form using "!___:___" strings.
+ * It is my hope that the nature of the inference rule will make it easy for
+ * user interface designers to allow any user to specify a rule. The idea is
+ * that the user can identify an example of the rule's applicability (which
+ * gives a candidate set of antecedents and consequents) and then be asked a set
+ * of questions that lets the tool discard fields from the antecedents or write
+ * them in more general form using "!___:___" strings.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class InferenceRule extends Node {
 	public final List<SortedMap<String, Object>> antecedents;
 	public final List<SortedMap<String, Object>> consequents;
 
-	/** Constructor used by JSON loading methods in Node and Database 
-	 * @param map A JSON object of this node
-	 * @param lookup How to resolve node references into Node objects 
-	 * @throws JSONParser.MalformedJSONException if the data is not proper JSON
-	 * @throws IllegalArgumentException if JSON is not a Node or list of Nodes.
+	/**
+	 * Constructor used by JSON loading methods in Node and Database
+	 * 
+	 * @param map
+	 *            A JSON object of this node
+	 * @param lookup
+	 *            How to resolve node references into Node objects
+	 * @throws JSONParser.MalformedJSONException
+	 *             if the data is not proper JSON
+	 * @throws IllegalArgumentException
+	 *             if JSON is not a Node or list of Nodes.
 	 */
 	@SuppressWarnings("unchecked")
 	public InferenceRule(SortedMap<String, Object> map, NodeLookup lookup) {
@@ -85,14 +81,43 @@ public class InferenceRule extends Node {
 
 	/**
 	 * Constructor used by code that wishes to create new objects
-	 * @param a The antecedents of this rule
-	 * @param c The consequents of this rule
+	 * 
+	 * @param a
+	 *            The antecedents of this rule
+	 * @param c
+	 *            The consequents of this rule
 	 */
 	public InferenceRule(List<SortedMap<String, Object>> a, List<SortedMap<String, Object>> c) {
 		super();
 		this.antecedents = a;
 		this.consequents = c;
 		this.selfCheck();
+	}
+
+	/**
+	 * Guesses at what rule was intended to get from a concrete set of
+	 * antecedents to a concrete set of consequents.
+	 * <p>
+	 * The basic process is as follows:
+	 * <ol>
+	 * <li>An IllegalArgumentException is thrown if the consequents refer to
+	 * nodes that are not in the lists of antecedents or consequents
+	 * <li>some kind of sorting of antecedents
+	 * <li>The antecedents are converted to JSON objects.
+	 * <li>The UUID fields are stripped from antecedents and consequents
+	 * <li>The source fields are stripped from all consequents
+	 * <li>external references in antecedents are removed
+	 * <li>some kind of !contains: and !xref: substitution
+	 * </ol>
+	 * 
+	 * @param a
+	 *            An example set of antecedents
+	 * @param c
+	 *            An example set of consequents
+	 * @return A rule that will match this antecedents/consequents example
+	 */
+	public static InferenceRule fromExample(List<Claim> a, List<SortedMap<String, Object>> c) {
+		throw new UnsupportedOperationException("Unimplemented method");
 	}
 
 	/**
@@ -161,6 +186,7 @@ public class InferenceRule extends Node {
 	}
 
 	private static final Pattern BANG_COLON = Pattern.compile("!([^:]*):(.*)");
+	private static final Pattern XREF_SYNTAX = Pattern.compile("([0-9]+)\\.([a-zA-Z_][a-zA-Z0-9_]*)");
 
 	/**
 	 * Compares a value found inside a Node to a target found inside an
@@ -171,15 +197,19 @@ public class InferenceRule extends Node {
 	 * <li>Claim values may be matched by integer offsets into the lookup
 	 * parameter list
 	 * <li>Most strings are matched using .equals()
-	 * <li>Target strings beginning with an '!'} and containing a ':'} are
-	 * treated specially depending on what lies between the ! and the :
+	 * <li>Target strings beginning with an {@literal '!'} and containing a
+	 * {@literal ':'} are treated specially depending on what lies between the !
+	 * and the :
 	 * <dl>
 	 * <dt>!re:</dt>
 	 * <dd>Regular expression: the value after the colon is matched using
 	 * String's match method.</dd>
 	 * <dt>!contains:</dt>
 	 * <dd>Matches collections if any element of the collection would match what
-	 * follows the colon.</dd>
+	 * follows the colon (which must be JSON-encoded).</dd>
+	 * <dt>!xref:</dt>
+	 * <dd>The right-hand side must be an integer, a period, and a field name in
+	 * that order. Matches value with lookup[integer].fieldName.</dd>
 	 * </dl>
 	 * Other !___: openings will be added later to allow more involved match
 	 * logic.
@@ -195,7 +225,7 @@ public class InferenceRule extends Node {
 	 * @return {@literal true} if the value matches the target; {@literal false}
 	 *         otherwise.
 	 */
-	private static boolean valueMatches(Object value, Object target, Claim... lookup) {
+	public static boolean valueMatches(Object value, Object target, Claim... lookup) {
 		if (target instanceof Collection) {
 			if (!(value instanceof Collection)) return false;
 			if (((Collection<?>) target).size() != ((Collection<?>) value).size()) return false;
@@ -224,6 +254,18 @@ public class InferenceRule extends Node {
 					for (Object o : (Collection<?>) value)
 						if (valueMatches(o, target, lookup)) return true;
 					return false;
+				} else if ("xref".equals(kind)) {
+					m = XREF_SYNTAX.matcher(starg);
+					if (!m.matches()) throw new UnsupportedOperationException("Unknown !xref: syntax " + starg);
+					Claim c = lookup[Integer.parseInt(m.group(1))];
+					try {
+						Field f = c.getClass().getField(m.group(2));
+						return valueMatches(value, f.get(c), lookup);
+					} catch (NoSuchFieldException e) {
+						return false; // throw new IllegalArgumentException("node " + m.group(1) + " of type " + c.getClass() + " has no " + m.group(2) + " field");
+					} catch (IllegalAccessException e) {
+						throw new AssertionError("Field " + m.group(2) + " of class " + c.getClass() + " should have been public");
+					}
 				} else {
 					throw new UnsupportedOperationException("Unknown target string beginning !" + kind + ":");
 				}

@@ -22,6 +22,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import org.rootsdev.polygenea.nodes.Note;
+
 /**
  * Node is a superclass of all Polygenea node objects. It handles JSON
  * serialisation (via reflection), UUID creation (via {@link UUID5}.fromUTF8 for
@@ -35,8 +37,8 @@ import java.util.UUID;
  * <li>All serialisable attributes of a node are declared as
  * {@code public final} fields.
  * <li>Every node has a JSON-reading constructor that accepts a JSON object and
- * a NodeLookup object. See the Note class for a simple stand-alone example of
- * what these might look like.
+ * a NodeLookup object. See the Grouping class for an example of what these
+ * might look like.
  * <li>All fields should have a well-defined canonical representation. Thus, the
  * interfaces SortedMap and SortedSet are preferred over Map and Set; SortedSet
  * is also preferred over most other Collections, with the exception that List
@@ -54,21 +56,42 @@ import java.util.UUID;
  * help detect a variety of potential problems at node creation time rather than
  * later when the nodes are in use or are being serialised.
  * 
- * @see org.rootsdev.polygenea.nodes.Note
- * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public abstract class Node implements Comparable<Node> {
 
 	private UUID uuid;
 	private int height = -1; // 0 at the bottom of the DAG, increasing above that
 
-	public boolean hasIdentity() {
-		for(Annotation a : this.getClass().getDeclaredAnnotations())
+	/**
+	 * True for nodes annotated with the @HasIdentity annotation; false
+	 * otherwise.
+	 * 
+	 * @return {@literal true} for nodes annotated with the @HasIdentity
+	 *         annotation; {@literal false} otherwise.
+	 */
+	final public boolean hasIdentity() {
+		for (Annotation a : this.getClass().getDeclaredAnnotations())
 			if (a.annotationType().equals(HasIdentity.class)) return true;
 		return false;
 	}
-	
+
+	/**
+	 * Distinguishes between nodes that are derived from comments (called
+	 * “notes”) and other nodes. Notes should not be considered as part of
+	 * conclusions.
+	 * 
+	 * @return {@literal true} if this is a Note or depends on one.
+	 */
+	final public boolean isNote() {
+		if (this.getClass().equals(Note.class)) return true;
+		for (Node n : this.out()) {
+			if (n.isNote()) return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Nodes form a directed acyclic graph. As such, each can be given a height.
 	 * A leaf node (one where out().size() == 0) has height 0. Every other
@@ -452,7 +475,7 @@ public abstract class Node implements Comparable<Node> {
 		String scls = (String) cls;
 
 		try {
-			Class<?> c = Class.forName(Node.class.getCanonicalName().replace(Node.class.getSimpleName(), "nodes."+scls));
+			Class<?> c = Class.forName(Node.class.getCanonicalName().replace(Node.class.getSimpleName(), "nodes." + scls));
 			if (!(Node.class.isAssignableFrom(c))) throw new JSONParser.MalformedJSONException("The class " + scls + " is not a polygenea node type");
 			Constructor<?> maker = c.getConstructor(SortedMap.class, NodeLookup.class);
 			Object o = maker.newInstance(sm, nodes);
@@ -587,14 +610,24 @@ public abstract class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * Equality is performed based class and UUID only, to match compareTo.
-	 * Assuming that UUIDs are actually unique, that is fine.
+	 * Equality is performed based on class and UUID only, to match compareTo.
+	 * Assuming that UUIDs are actually unique, it is equivalent to a
+	 * content-based equality computation.
 	 */
+	@Override
 	public boolean equals(Object that) {
 		if (that instanceof Node && this.getClass().equals(that.getClass())) {
 			return this.getUUID().equals(((Node) that).getUUID());
 		}
 		return false;
+	}
+
+	/**
+	 * Hashing is performed based on UUID only, to match compareTo.
+	 */
+	@Override
+	public int hashCode() {
+		return this.getUUID().hashCode();
 	}
 
 	/**

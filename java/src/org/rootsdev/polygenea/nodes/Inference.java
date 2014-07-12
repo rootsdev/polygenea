@@ -17,7 +17,8 @@ import org.rootsdev.polygenea.NodeLookup;
  * InferenceRule) that is supported by other Claim nodes, rather than an
  * external witness.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public class Inference extends Source {
 

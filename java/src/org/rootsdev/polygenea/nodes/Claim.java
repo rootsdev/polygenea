@@ -10,7 +10,8 @@ import org.rootsdev.polygenea.NodeLookup;
  * The Claim class is merely a placeholder to represent those kinds of nodes
  * that represent claims made by a source.
  * 
- * @author Luther Tychonievich. Released into the public domain. I would consider it a courtesy if you cite my contributions to any code derived from this code or project that uses this code.
+ * @author Luther Tychonievich. Released into the public domain. I would
+ *         consider it a courtesy if you cite me if you benefit from this code.
  */
 public abstract class Claim extends Node {
 	
