@@ -47,5 +47,5 @@ Updated reference implementations are in the works.
 Licensing
 ---------
 
-I release polygenea, including its ideas, documentation, and reference code
+I hereby release polygenea, including its ideas, documentation, and reference code
 into the public domain.
