@@ -1,3 +1,8 @@
+The data model has been simplified somewhat since July 2014 when the following README.md was written.
+The README still describes the available code, 
+but the current model is documented in the [docs folder](/rootsdev/polygenea/tree/master/docs/overview.md).
+
+
 polygenea
 =========
 
@@ -72,6 +77,9 @@ Unlike other nodes, Citation nodes have no constraints on the fields they may co
 
 A *Claim* node is either a *Thing* node, a *Property* node, a *Connection* node, a *Grouping* node, or a *Match* node.
 
+Note: the distinction between Claim nodes and other node types has been removed from the most recent [docs](/rootsdev/polygenea/tree/master/docs/overview.md).
+
+
 A *Connection* node represents a directed relationship between two other nodes. Each contains
 - "source", a reference to a *Source*
 - "from", a reference to a *Claim*
@@ -83,10 +91,15 @@ An *ExternalSource* node describes a source of information external to the data.
 - "content", a string containing a digitisation of the cited source
 - "contentType", a string describing how to interpret the content as outlined in [RFC 2045](http://www.ietf.org/rfc/rfc2045.txt) and [2046](http://www.ietf.org/rfc/rfc2046.txt)
 
+Note: the ExternalSource node has been renamed the Digitisation node in the most recent [docs](/rootsdev/polygenea/tree/master/docs/overview.md).
+
+
 A *Grouping* node represents an undirected relationship between two or more other nodes. Each contains
 - "source", a reference to a *Source*
 - "subjects", a set (not list) of references to a *Claim* nodes
 - "relation", a string containing the relationship between the subjects
+
+Note: the Grouping node has been removed from the most recent [docs](/rootsdev/polygenea/tree/master/docs/overview.md).
 
 An *Inference* node describes a source of information internal to the data. Each contains
 - "antecedents", a list (not set) of references to *Claim* nodes
@@ -103,6 +116,8 @@ A *Match* node asserts that two or more *Thing* nodes refer to the same real-wor
 A *Note* node describes the action of a user of the system providing some non-conclusion-oriented information. Each contains
 - "user", a string
 - "date", a string
+
+Note: the Note node has been removed from the most recent [docs](/rootsdev/polygenea/tree/master/docs/overview.md).
 
 A *Property* node describes some attribute of another node. Each contains
 - "source", a reference to a *Source*
