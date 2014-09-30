@@ -1,3 +1,6 @@
+Polygenea
+=========
+
 Polygenea is designed to be a simple and versatile data model
 for all kinds of family history research.
 Its goals include
@@ -31,7 +34,18 @@ You can read more in the following articles:
 	* 	[Safe, Small, Interesting Tasks](usecases.md#safe-small-interesting-tasks)
 	* 	[Interactive Rule Creation](usecases.md#rule-creation)
 
+
+Reference Implementation
+------------------------
+
 The reference Java and D implementations currently available
 use reflection and meta-programming (which makes the hard to read)
 and reflect a slightly older, more complicated version of Polygenea.
 Updated reference implementations are in the works.
+
+
+Licensing
+---------
+
+I release polygenea, including its ideas, documentation, and reference code
+into the public domain.
