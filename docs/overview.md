@@ -16,11 +16,12 @@ Its goals include
 
 You can read more in the following articles:
 
-1.	[Guiding Principles](principles.md)
+1.	[Guiding Principles](principles.md), a set of ideals and beliefs that guide polygenea development
 
-2.	[The 8 Node Types](nodes.md)
+2.	[The 8 Node Types](nodes.md), describing the data model itself
 
-3.	[Serialization](serialization.md)
+3.	[Serialization](serialization.md), describing several options for turning the nodes into byte streams
+	I anticipate converging on a prefered model at some point.
 
 4.	[Use Cases](usecases.md), initially including
 	
@@ -47,5 +48,5 @@ Updated reference implementations are in the works.
 Licensing
 ---------
 
-I hereby release polygenea, including its ideas, documentation, and reference code
+I hereby release polygenea, including its ideas, documentation, and reference code,
 into the public domain.
