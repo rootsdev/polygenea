@@ -57,40 +57,43 @@ Claims
 
 There are only three kinds of core claims:
 
-**Thing** node
-:	Represents the claim "something existed."
-	
-	Because *anything* about the claim could be sensibly disbelieved,
-	the only content of a Thing node is a unique identifier and a reference to the source asserting that the thing exists.
+### **Thing** node
+Represents the claim "something existed."
 
-**Property** node
-:	Attaches a datum to another node.
-	The datum should not be sensible to disbelieve in isolation of the node to which is applies.
-	
-	The content of a Property node is a key/value pair
-	and references to its source and the node to which the property applies.
+Because *anything* about the claim could be sensibly disbelieved,
+the only content of a Thing node is a unique identifier and a reference to the source asserting that the thing exists.
 
-**Connection** node
-:	Attaches two nodes together.
+### **Property** node
+Attaches a datum to another node.
+The datum should not be sensible to disbelieve in isolation of the node to which is applies.
 
-	The content of a Connection node is a description of the relationship between the nodes
-	and a reference to its source and the pair of nodes it connects.
+The content of a Property node is a key/value pair
+and references to its source and the node to which the property applies.
+
+### **Connection** node
+Attaches two nodes together.
+
+The content of a Connection node is a description of the relationship between the nodes
+and a reference to its source and the pair of nodes it connects.
+
+----
 
 There is also a fourth kind of quasi-claim node:
 
-**Match** node
-:	Represents the decision "these two Thing nodes represent the same real-world entity."
+### **Match** node
+Represents the decision "these two Thing nodes represent the same real-world entity."
 
-	The content of a Match node is a reference to its source and the pair of nodes it "merges".
+The content of a Match node is a reference to its source and the pair of nodes it "merges".
 
-	A Match acts in every way as a Thing node.
-	Every node referring to either matched thing by definition is also treated as referring to the Match node.
+A Match acts in every way as a Thing node.
+Every node referring to either matched thing by definition is also treated as referring to the Match node.
 
 Match nodes are similar to connections and could be modelled as connections
 but are kept separate because of their acts-like-a-Thing character.
 Properties and Connections that point to a Connection refer to the relationship the Connection describes;
 Properties and Connections that point to a Match refer to the aggregate Thing the Match describes.
 	
+----
 	
 ### Comments are Properties
 
@@ -116,33 +119,35 @@ Sourcing
 
 There are at three kinds of source nodes.
 
-**Citation** node
-:	A reference pointing to something external to the digital data.
-	
-	At present, my expectation is that these nodes are a more-or-less unconstrained sets of key-value pairs.
-	A lot of work is needed to standardise these,
-	including at least a set of "preferred" or "standard" keys,
-	a discipline for translingual activities,
-	and probably a set of formatting guides for at least some classes of values.
+### **Citation** node
+A reference pointing to something external to the digital data.
 
-**Digitisation** node
-:	An in-data document being referenced.
-	May be derivative, like a transcript or image of an external document;
-	or may be original, a user-testified source entered directly by the user.
+At present, my expectation is that these nodes are a more-or-less unconstrained sets of key-value pairs.
+A lot of work is needed to standardise these,
+including at least a set of "preferred" or "standard" keys,
+a discipline for translingual activities,
+and probably a set of formatting guides for at least some classes of values.
+
+### **Digitisation** node
+An in-data document being referenced.
+May be derivative, like a transcript or image of an external document;
+or may be original, a user-testified source entered directly by the user.
+
+The content of a digitisation blob
+is a media-type field
+and either a content-hash based pointer to a local file
+or an internal byte stream.
 	
-	The content of a digitisation blob
-	is a media-type field
-	and either a content-hash based pointer to a local file
-	or an internal byte stream.
-	
-**Inference** node
-:	A representation of a particular application of reasoning.
-	
-	The content of an Inference node is a reference to the Rule node of which this inference is an instance and a set of node references that match to the Rule's antecedents.
-	
-	If there is no Rule reference, the rule is assumed to be a "one-off" rule:
-	the specific support nodes referenced 
-	imply the nodes that are sourced to the Inference and nothing else.
+### **Inference** node
+A representation of a particular application of reasoning.
+
+The content of an Inference node is a reference to the Rule node of which this inference is an instance and a set of node references that match to the Rule's antecedents.
+
+If there is no Rule reference, the rule is assumed to be a "one-off" rule:
+the specific support nodes referenced 
+imply the nodes that are sourced to the Inference and nothing else.
+
+----
 
 The Inference node depends on the Rule node.
 This is an optional dependency: it is possible to represent all inferences with a missing rule reference.
@@ -170,30 +175,30 @@ Some of the reasons for including rules are:
 	That means that on average 10 of the times you applied it are probably incorrect."
 
 
-**Rule** node
-:	A representation of a trend or rule.
-	
-	The contents of a Rule node is simply two lists of other nodes.
-	The first of these is the list of *antecedents* of the rule, which specifies under what conditions the rule applies;
-	the second is the list of *consequents* of the rule, which specifies what may be concluded from the antecedents.
-	
-	The antecedents nodes may be under-specified in order to specify generality.
-	For example, an antecedent `Property(key="name", value="Jno")` would match any property with that key and value no matter what node it discussed or what source it came from.
-	
-	Both antecedents and consequents may only use *local* references to other nodes.
-	These references are expressed as 0-based integer indexes.
-	Thus the first antecedent has local index 0, the second 1, the third 2, and so on.
-	If there are *n* nodes in the antecedent list
-	then the first consequent has local index *n*, the second has *n* + 1, and so on.
-	All references in a node with local index *i* must be between 0 and *i* &minus; 1, inclusive.
-	
-	There are multiple possible Rule nodes for each meaning of the rule.
-	I may at some point design add additional constraints that make Rule form canonical
-	by forcing only a single ordering of antecedents and consequents.
-	
-	I anticipate adding other syntax later that will increase expressiveness of rules.
-	One example might be regular expressions in antecedent values
-	and back-references to the matches of those expressions in other nodes.
+### **Rule** node
+A representation of a trend or rule.
+
+The contents of a Rule node is simply two lists of other nodes.
+The first of these is the list of *antecedents* of the rule, which specifies under what conditions the rule applies;
+the second is the list of *consequents* of the rule, which specifies what may be concluded from the antecedents.
+
+The antecedents nodes may be under-specified in order to specify generality.
+For example, an antecedent `Property(key="name", value="Jno")` would match any property with that key and value no matter what node it discussed or what source it came from.
+
+Both antecedents and consequents may only use *local* references to other nodes.
+These references are expressed as 0-based integer indexes.
+Thus the first antecedent has local index 0, the second 1, the third 2, and so on.
+If there are *n* nodes in the antecedent list
+then the first consequent has local index *n*, the second has *n* + 1, and so on.
+All references in a node with local index *i* must be between 0 and *i* &minus; 1, inclusive.
+
+There are multiple possible Rule nodes for each meaning of the rule.
+I may at some point design add additional constraints that make Rule form canonical
+by forcing only a single ordering of antecedents and consequents.
+
+I anticipate adding other syntax later that will increase expressiveness of rules.
+One example might be regular expressions in antecedent values
+and back-references to the matches of those expressions in other nodes.
 
 
 Serialisation
@@ -223,7 +228,7 @@ in hashing or equality comparison.
 
 For example,
 
-`{"!class":"Digitisation","content-type":"text/plain","contents":"Tom's father"}`
+	{"!class":"Digitisation","content-type":"text/plain","contents":"Tom's father"}
 
 
 
