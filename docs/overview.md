@@ -21,15 +21,15 @@ You can read more in the following articles:
 
 4.	[Use Cases](usecases.md), initially including
 	
-	* 	Changing data
-	* 	Distributed research
-	* 	Privacy and Data Ownership
-	* 	Handling Disagreement
-	* 	Handling Uncertainty
-	* 	Recording Source Provenance
-	* 	Attribution
-	* 	Safe, Small, Interesting Tasks
-	* 	Interactive Rule Creation
+	* 	[Changing data](usecases.md#fixing-a-mistake)
+	* 	[Distributed research](usecases.md#distributed-research)
+	* 	[Privacy and Data Ownership](usecases.md#privacy-and-data-ownership)
+	* 	[Handling Disagreement](usecases.md#handling-disagreement)
+	* 	[Handling Uncertainty](usecases.md#handling-uncertainty)
+	* 	[Recording Source Provenance](usecases.md#recording-provenance)
+	* 	[Attribution](usecases.md#attribution)
+	* 	[Safe, Small, Interesting Tasks](usecases.md#safe-small-interesting-tasks)
+	* 	[Interactive Rule Creation](usecases.md#rule-creation)
 
 The reference Java and D implementations currently available
 use reflection and meta-programming (which makes the hard to read)
