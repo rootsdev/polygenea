@@ -82,7 +82,7 @@ Sourcing
 
 There are at three kinds of source nodes.
 
-#### **Citation** node
+#### **BibItem** node
 A reference pointing to something external to the digital data.
 
 At present, my expectation is that these nodes are a more-or-less unconstrained sets of key-value pairs.
@@ -90,6 +90,11 @@ A lot of work is needed to standardise these,
 including at least a set of "preferred" or "standard" keys,
 a discipline for translingual activities,
 and probably a set of formatting guides for at least some classes of values.
+
+In earlier versions of Polygenea I called these "Citation nodes".
+Confusion over the user of "citation" as a textual presentation vs. underlying data
+caused me to switch terms to "BibItem" (inspired by BibTeX's database of reference entries and LaTeX's command `\bibitem`).
+I am not yet convinced that this term is optimal.
 
 #### **Digitisation** node
 An in-data document being referenced.
@@ -164,3 +169,9 @@ by forcing only a single ordering of antecedents and consequents.
 I anticipate adding other syntax later that will increase expressiveness of rules.
 One example might be regular expressions in antecedent values
 and back-references to the matches of those expressions in other nodes.
+
+The name "Rule" is problematic,
+suggesting it only covers natural laws and not strong trends.
+"Trend" has the opposite problem.
+Other terms I've considered (e.g. "hypothetical proposition", "reason", "pattern") have their own problems.
+I am open to alternative names.

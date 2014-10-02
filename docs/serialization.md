@@ -6,7 +6,7 @@ Because it is write-once, there are no updates or edits to serialise.
 Because it is a directed acyclic graph, there are not cyclic dependencies to resolve.
 Because the graph is generally quite shallow with a small branching factor
 there isn't even much to worry about as far as scaling and caching goes.
-It fits easily in a relational database (with the possible exception of Citation nodes),
+It fits easily in a relational database (with the possible exception of BibItem nodes),
 in a NoSQL database, 
 or in just about any other data store desired.
 Even simple append-only files can store the data correctly if not in an efficient way for querying later.
@@ -221,10 +221,10 @@ We can also use the more compact constructor-style notation for most nodes:
 	     ]
 	    )
 
-The constructor syntax does not lend itself to the open-ended contents of a Citation node: the keys cannot be inferred from position.
+The constructor syntax does not lend itself to the open-ended contents of a BibItem node: the keys cannot be inferred from position.
 However, Python-like constructor syntax would work at almost exactly the same space requirements as XML:
 
-	Citation(author="Tychonievich, Luther A", title="Polygenea")
+	BibItem(author="Tychonievich, Luther A", title="Polygenea")
 
 By design, each of the eight node types starts with a unique letter, allowing further compression; missing elements can also be implied with commas alone for even more compression:
 
