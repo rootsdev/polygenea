@@ -40,7 +40,7 @@ such that all indexes are to an earlier part of the list, enabling single-pass p
 	,{"!class":"Thing","id":"KWE-2E7","source":0}
 	,{"!class":"Property","key":"name","of":1,"source":0,"value":"Tom"}
 	,{"!class":"Thing","id":"EV8-3WQ","source":0}
-	,{"!class":"Connection","label":"father","of":1,"source":0,"target":3}
+	,{"!class":"Connection","key":"father","of":1,"source":0,"value":3}
 	]
 
 Local index form is simple and compact;
@@ -121,7 +121,7 @@ It might be tempting to add in more details to the preceding example:
 	,{"!class":"Thing","id":"KWE-2E7","source":0}
 	,{"!class":"Property","key":"name","of":1,"source":0,"value":"Tom"}
 	,{"!class":"Thing","id":"EV8-3WQ","source":0}
-	,{"!class":"Connection","label":"father","of":1,"source":0,"target":3}
+	,{"!class":"Connection","key":"father","of":1,"source":0,"value":3}
 	,{"!class":"Property","key":"type","of":1,"source":0,"value":"person"}
 	,{"!class":"Property","key":"type","of":3,"source":0,"value":"person"}
 	,{"!class":"Property","key":"type","of":4,"source":0,"value":"biological"}
@@ -134,7 +134,7 @@ More correct would be
 	,{"!class":"Thing","id":"KWE-2E7","source":0}
 	,{"!class":"Property","key":"name","of":1,"source":0,"value":"Tom"}
 	,{"!class":"Thing","id":"EV8-3WQ","source":0}
-	,{"!class":"Connection","label":"father","of":1,"source":0,"target":3}
+	,{"!class":"Connection","key":"father","of":1,"source":0,"value":3}
 	,{"!class":"Inference","antecedents":[1,3,4]}
 	,{"!class":"Property","key":"type","of":1,"source":5,"value":"person"}
 	,{"!class":"Property","key":"type","of":3,"source":5,"value":"person"}
@@ -147,12 +147,12 @@ or even
 	,{"!class":"Thing","id":"KWE-2E7","source":0}
 	,{"!class":"Property","key":"name","of":1,"source":0,"value":"Tom"}
 	,{"!class":"Thing","id":"EV8-3WQ","source":0}
-	,{"!class":"Connection","label":"father","of":1,"source":0,"target":3}
+	,{"!class":"Connection","key":"father","of":1,"source":0,"value":3}
 	,{ "!class":"Rule"
 	 , "antecedents":
 	   [ {"!class":"Thing"}
 	   , {"!class":"Thing"}
-	   , {"!class":"Connection","label":"father","of":1,"target":0}
+	   , {"!class":"Connection","key":"father","of":1,"value":0}
 	   ]
 	 , "consequents":
 	   [ {"!class":"Property","key":"type","of":0,"value":"person"}
@@ -179,7 +179,7 @@ I've so-far presented JSON:
 	 , "antecedents":
 	   [ {"!class":"Thing"}
 	   , {"!class":"Thing"}
-	   , {"!class":"Connection","label":"father","of":1,"target":0}
+	   , {"!class":"Connection","key":"father","of":1,"value":0}
 	   ]
 	 , "consequents":
 	   [ {"!class":"Property","key":"type","of":0,"value":"person"}
