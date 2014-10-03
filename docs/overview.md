@@ -34,6 +34,8 @@ You can read more in the following articles:
 	* 	[Attribution](usecases.md#attribution)
 	* 	[Safe, Small, Interesting Tasks](usecases.md#safe-small-interesting-tasks)
 	* 	[Interactive Rule Creation](usecases.md#rule-creation)
+	* 	[Tool-Specific Values](usecases.md#tool-specific-values)
+	* 	[Authority-Controlled Attributions](usecases.md#authority-controlled-attributions)
 
 
 Reference Implementation
