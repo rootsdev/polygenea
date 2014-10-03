@@ -128,6 +128,69 @@ I envision a simple way to guide novices through the process of creating a Rule 
 	…and so on to determine parts of the antecedents that can be loosened up.
 	
 
+## Tool-Specific Values
+
+Many tools have specific keys or values that are not shared by other tools.
+One example that came up in core-concepts@fhiso.org 
+was FamilySearch's Ternary parent-child.
+
+I suggest that keys that do not begin with an underscore or exclamation point
+be treated as unconstrained: if a source suggests person 15 had a magical ability of 47.8
+we are free to add `<Property key="magical ability" of="15" value="47.8"/>`.
+I further suggest that a standards body like FHISO allocate keys that do start with `_` and `!`.
+`!` should prefix keys with agreed-on meaning by the standards body itself;
+`_` should prefix individual organisations with approved key namespaces.
+Thus we might have `date` keys for the literal date contained in a source,
+a `!date` key for a standard-format date value,
+a `_fs_date` key for FamilySearch's in-house date standard, etc.
+
+How would an controlled key be added to Polygenea?
+I suggest it be defined by some Rules.
+For example, an enforced-ternary child relationship could be created by a set of rules like
+
+	{"!class":"Rule","antecedents":[
+		{"!class":"Thing"},
+		{"!class":"Property","key":"!type","of":0,"value":"_fs_ternary"},
+		{"!class":"Thing"},
+		{"!class":"Connection","key":"_fs_mother","of":0,"value":2},
+		{"!class":"Thing"},
+		{"!class":"Connection","key":"_fs_mother","of":0,"value":4},
+	],"consequents":[
+		{"!class":"Property","key":"meta-validity","of":0,"value":"invalid"},
+	]}
+
+that mark any non-ternary relationship as invalid.
 
 
+## Belief Sets
+
+One use of BitItem nodes is to represent belief sets.
+When working with others I might want to keep track of the nodes
+that I believe and the nodes each of my contributors has chosen to believe as well.
+To do that I add a BibItem like `<BibItem type="belief" user="_fhiso_username=ltychonievich"/>`
+and a lot of Connection nodes like `<Connection key="member" of="42" value="8"/>`
+which, if `"42"` was a reference to the belief BibItem, would mean that node 8 is part of my belief.
+
+Another use for belief sets is to have several views of my own work.
+Often there are two or more variants of possible history,
+each made up of many claims but mutually exclusive.
+I'd make the nodes for both groups
+and then add a few belief sets like 
+
+	<BibItem option="A" type="belief" user="_fhiso_username=ltychonievich"/>
+	<BibItem option="B" type="belief" user="_fhiso_username=ltychonievich"/>
+
+to connect the various possible versions of history together.
+
+
+Note that many uses of belief sets can be automated by a computer by using inferences.
+Often conflicting ideas stem from a conflict:
+from node set A you can infer that nodes in set B are not true and vice versa.
+If these inferences are recorded with Inference nodes sourced to not-true properties, 
+it should be straightforward for the computer could detect those patterns
+and present the set of alternatives without the need for manual belief set identification.
+Similarly, it should be possible for the computer 
+to identify a minimal set of core differences between the various options, etc.
+However, since the algorithms to do this are not yet in production
+the manual belief set is probably best for now.
 

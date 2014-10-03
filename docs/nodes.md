@@ -3,6 +3,8 @@ The Nodes
 
 Polygenea data is made up of eight kinds of nodes.
 
+In addition to this overview, examples can be found in [Polygenea Serialisation](serialisation.md)
+and additional discussion in [Use Cases](usecases.md) and [Why Eight Node  Types?](why8.md).
 
 Claims
 ------
