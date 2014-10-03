@@ -181,6 +181,10 @@ and then add a few belief sets like
 	<BibItem option="B" type="belief" user="_fhiso_username=ltychonievich"/>
 
 to connect the various possible versions of history together.
+The user interface could then display the different sets however it choses,
+perhaps by showing only data linked from the currently-viewed belief
+or showing several color-coded beliefs at once, etc.
+
 
 
 Note that many uses of belief sets can be automated by a computer by using inferences.
@@ -194,3 +198,26 @@ to identify a minimal set of core differences between the various options, etc.
 However, since the algorithms to do this are not yet in production
 the manual belief set is probably best for now.
 
+
+## Authority-Controlled Attributions
+
+For various reasons some groups want to be able to control attribution of various values related to family history.
+Examples include membership in various "daughters-of-\_\_\_\_" groups, tribal rights, and LDS temple ordinances.
+But problems arise as the details of the deceased-as-believed-to-be change.
+If we realize that Tom Jones was really two people, which one (if either) gets to keep the attribution?
+
+I suggest that controlled attributes be attached to a single Thing node within a Match-based individual.
+Properties may be discredited, Matches made or broken, but no ambiguity results:
+there is still one attributed Thing node.
+If at some point a few different attributed Thing nodes are Matched together
+we have unambiguous data showing that the attribution was applied multiple times.
+
+I am assuming that the authority would keep its own list of attribution Property nodes
+which it might make publicly readable,
+but that it would not accept these attributions from outside sources.
+The attributions could also be cryptographically signed
+so that third parties could verify if attributions they hear about
+were created by the authority or not.
+
+My suggestions for a solution to this are not unique to polygenea:
+they would work in any DeadEnds, Lifelines, Behold, and other persona/source detail systems as well.
