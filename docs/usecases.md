@@ -131,7 +131,7 @@ I envision a simple way to guide novices through the process of creating a Rule 
 ## Tool-Specific Values
 
 Many tools have specific keys or values that are not shared by other tools.
-One example that came up in core-concepts@fhiso.org 
+One example that came up in [core-concepts@fhiso.org](http://fhiso.org/pipermail/core-concepts_fhiso.org/2014-September/000075.html) 
 was FamilySearch's Ternary parent-child.
 
 I suggest that keys that do not begin with an underscore or exclamation point
