@@ -9,33 +9,33 @@ some *key* *of* a node is a *value*.
 So why are Property and Connection distinct node types?
 Let's consider two ways of merging them.
 
-**Just Connections**
+### Just Connections
 
-:	We could replace `<Property key="name" of="3" value="Jon"/>` with two nodes:
-	a content node `<Digitisation content="Jon" content-type"text/plain"/>`
-	and a connection `<Connection key="name" of="3" value="5"/>`.
-	
-	This, however, leaves the name itself sitting out there as a node
-	subject to being disbelieved or having properties attached to it.
-	Someone will probably try to add a connection suggesting "Jon" is short for "Jonathan"
-	or something of that sort which is only true for some of the people named Jon.
-	
-	There are some values that *should not* be their own nodes
-	because each Property needs its own copy.
+We could replace `<Property key="name" of="3" value="Jon"/>` with two nodes:
+a content node `<Digitisation content="Jon" content-type"text/plain"/>`
+and a connection `<Connection key="name" of="3" value="5"/>`.
 
-**Common Type**
+This, however, leaves the name itself sitting out there as a node
+subject to being disbelieved or having properties attached to it.
+Someone will probably try to add a connection suggesting "Jon" is short for "Jonathan"
+or something of that sort which is only true for some of the people named Jon.
 
-:	We could also leave both value-is-data and value-is-reference cases
-	but combine them in a common node type, perhaps named something like Datum.
-	The problem with this model is that it can become confusing if a value 
-	is meant to be a reference or a literal value.
-	For every kind of reference I have considered thus far
-	there is an at least somewhat plausible scenario where a Property value
-	might look exactly like a reference.
-	
-	So why not just add a type indicator telling us if the value is literal or a reference?
-	I did just that, and chose to store the indicator in the node type
-	instead of in a separate field or as part of the value itself.
+There are some values that *should not* be their own nodes
+because each Property needs its own copy.
+
+### Common Type
+
+We could also leave both value-is-data and value-is-reference cases
+but combine them in a common node type, perhaps named something like Datum.
+The problem with this model is that it can become confusing if a value 
+is meant to be a reference or a literal value.
+For every kind of reference I have considered thus far
+there is an at least somewhat plausible scenario where a Property value
+might look exactly like a reference.
+
+So why not just add a type indicator telling us if the value is literal or a reference?
+I did just that, and chose to store the indicator in the node type
+instead of in a separate field or as part of the value itself.
 
 
 
