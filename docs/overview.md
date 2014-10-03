@@ -18,7 +18,7 @@ You can read more in the following articles:
 
 1.	[Guiding Principles](principles.md), a set of ideals and beliefs that guide polygenea development
 
-2.	[The 8 Node Types](nodes.md), describing the data model itself
+2.	[The 8 Node Types](nodes.md), describing the data model itself, and some discussion of [why these 8](why8.md).
 
 3.	[Serialization](serialization.md), describing several options for turning the nodes into byte streams
 	I anticipate converging on a prefered model at some point.
