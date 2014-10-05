@@ -1,15 +1,13 @@
 The data model has been simplified somewhat since July 2014 when the following README.md was written.
 The README still describes the available code, 
-but the current model is documented in the [docs folder](/docs/overview.md).
+but the current model is documented in the [docs folder](/docs/overview.md)
+and in [the wiki](https://github.com/rootsdev/polygenea/wiki) (the two are equivalent).
 
 
 polygenea
 =========
 
 An effort to document a data model for collaborative genealogy.
-
-Early work was summarized on [the wiki](https://github.com/rootsdev/polygenea/wiki).
-That material no longer reflects the current status of the project.
 
 Some other reference material can be found in 
 [this slide deck](https://www.cs.virginia.edu/tychonievich/blog/media/DEV1349_Tychonievich_slides.pdf) from RootsTech 2014 
