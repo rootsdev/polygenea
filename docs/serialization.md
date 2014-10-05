@@ -224,7 +224,7 @@ We can also use the more compact constructor-style notation for most nodes:
 The constructor syntax does not lend itself to the open-ended contents of a BibItem node: the keys cannot be inferred from position.
 However, Python-like constructor syntax would work at almost exactly the same space requirements as XML:
 
-	BibItem(author="Tychonievich, Luther A", title="Polygenea")
+	BibItem(author="Tychonievich, Luther A",title="Polygenea")
 
 By design, each of the eight node types starts with a unique letter, allowing further compression; missing elements can also be implied with commas alone for even more compression:
 
