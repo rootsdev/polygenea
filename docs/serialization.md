@@ -209,7 +209,7 @@ XML is slightly more compact than JSON for these nodes because it has fewer quot
 
 We can also use the more compact constructor-style notation for most nodes:
 	
-	Digitisation("text/plain", "Tom's father")
+	Digitisation("text/plain","Tom's father")
 	
 	Rule([Thing(null,null)
 	     ,Thing(null,null)
@@ -230,15 +230,8 @@ By design, each of the eight node types starts with a unique letter, allowing fu
 
 	D("text/plain","Tom's father")
 
-	R([T(,)
-	  ,T(,)
-	  ,C("father",1,,0)
-	  ]
-	 ,[P("type",0,"person")
-	  ,P("type",1,"person")
-	  ,P("type",2,"biological")
-	  ]
-	 )
+	R([T(,),T(,),C("father",1,,0)]
+	 ,[P("type",0,"person"),P("type",1,"person"),P("type",2,"biological")])
 
 Comparing these different approaches for these example nodes:
 
