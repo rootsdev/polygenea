@@ -1,7 +1,6 @@
 The data model has been simplified somewhat since July 2014 when the following README.md was written.
 The README still describes the available code, 
-but the current model is documented in the [docs folder](/docs/overview.md)
-and in [the wiki](https://github.com/rootsdev/polygenea/wiki) (the two are equivalent).
+but the current model is documented in [the wiki](https://github.com/rootsdev/polygenea/wiki).
 
 
 polygenea
